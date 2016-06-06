@@ -9,8 +9,9 @@ RUN cd /tmp && \
     mv /tmp/jai*/lib/*.so $JAVA_HOME/lib/amd64/ && \
     rm -r /tmp/*
 
-ENV GEOSERVER_VERSION 2.9
-ENV GEOSERVER_VERSION_NAME ${GEOSERVER_VERSION}.x
+ENV GEOSERVER_VERSION 2.10
+ENV GEOSERVER_VERSION_NAME master
+
 
 # Install geoserver
 RUN curl -L http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/geoserver-${GEOSERVER_VERSION_NAME}-latest-war.zip > /tmp/geoserver.zip && \
