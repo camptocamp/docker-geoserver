@@ -17,6 +17,7 @@ RUN curl -L http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/geo
     unzip /tmp/geoserver.zip -d /tmp/geoserver && \
     rm -rf ${CATALINA_HOME}/webapps/* && \
     unzip /tmp/geoserver/geoserver.war -d $CATALINA_HOME/webapps/ROOT && \
+    (cd $CATALINA_HOME/webapps/ROOT/WEB-INF/lib; rm jai_core-*jar jai_imageio-*.jar jai_codec-*.jar) && \
     rm -r /tmp/*
 
 # Install plugins (WPS)
