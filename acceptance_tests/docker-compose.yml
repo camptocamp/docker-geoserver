@@ -1,0 +1,6 @@
+geoserver:
+  image: camptocamp/geoserver:${DOCKER_TAG}
+  ports:
+    - 8380:8080
+  volumes_from:
+    - acceptance_config
