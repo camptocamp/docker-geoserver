@@ -31,7 +31,8 @@ build:
 build_acceptance_config:
 		docker build --tag=$(DOCKER_IMAGE)_acceptance_config:$(DOCKER_TAG) acceptance_tests/config
 
-build_acceptance: build_acceptance_config
+#build_acceptance: build_acceptance_config
+build_acceptance: 
 		@echo "Docker version: $(DOCKER_VERSION)"
 		@echo "Docker-compose version: $(DOCKER_COMPOSE_VERSION)"
 		docker build --build-arg DOCKER_VERSION="$(DOCKER_VERSION)" --build-arg DOCKER_COMPOSE_VERSION="$(DOCKER_COMPOSE_VERSION)" -t $(DOCKER_IMAGE)_acceptance:$(DOCKER_TAG) acceptance_tests
