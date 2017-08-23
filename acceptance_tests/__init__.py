@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 from acceptance_tests import utils
 
 
-BASE_URL = 'http://' + netifaces.gateways()[netifaces.AF_INET][0][0] + ':8380/ows' if utils.in_docker() else 'http://localhost:8380/ows'
+BASE_URL = 'http://' + netifaces.gateways()[netifaces.AF_INET][0][0] + ':8380/geoserver/ows' if utils.in_docker() else 'http://localhost:8380/geoserver/ows'
 LOG = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG, format="TEST                 | %(asctime)-15s %(levelname)5s %(name)s %(message)s", stream=sys.stdout)
 logging.getLogger("requests.packages.urllib3.connectionpool").setLevel(logging.WARN)
