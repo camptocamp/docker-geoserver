@@ -8,6 +8,8 @@ ENV XMS=1536M XMX=8G
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
+USER root
+
 RUN echo "deb http://httpredir.debian.org/debian jessie main contrib non-free" > /etc/apt/sources.list \
  && echo "deb http://security.debian.org/ jessie/updates main contrib" >> /etc/apt/sources.list \
  && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections \
@@ -31,6 +33,15 @@ RUN wget -O geoserver-${GEOSERVER_VERSION}-war.zip https://sourceforge.net/proje
  unzip -e $JETTY_BASE/webapps/geoserver.war -d $JETTY_BASE/webapps/geoserver; \
  chown -R jetty:jetty $JETTY_BASE/webapps/geoserver; \
  rm -f geoserver-${GEOSERVER_VERSION}-war.zip
+
+# Useful extensions: pyramid, inspire ...
+RUN wget -O ext.zip https://downloads.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-pyramid-plugin.zip; \
+ unzip -e ext.zip *.jar -d $JETTY_BASE/webapps/geoserver/WEB-INF/lib/; \
+ rm -f ext.zip
+
+RUN wget -O ext.zip https://downloads.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-inspire-plugin.zip; \
+ unzip -e ext.zip *.jar -d $JETTY_BASE/webapps/geoserver/WEB-INF/lib/; \
+ rm -f ext.zip
 
 # Marlin renderer
 RUN wget https://github.com/bourgesl/marlin-renderer/releases/download/v0.7.5_2/marlin-0.7.5-Unsafe.jar -O $JETTY_BASE/webapps/geoserver/WEB-INF/lib/marlin.jar
@@ -59,6 +70,8 @@ RUN ln -s /usr/share/java/mlibwrapper_jai.jar $JETTY_BASE/lib/ext && \
 
 # Keep system version of JAI
 RUN rm -f $JETTY_BASE/webapps/geoserver/WEB-INF/lib/jai_codec-1.1.3.jar $JETTY_BASE/webapps/geoserver/WEB-INF/lib/jai_core-1.1.3.jar $JETTY_BASE/webapps/geoserver/WEB-INF/lib/jai_imageio-1.1.jar
+
+USER jetty
 
 CMD ["sh", "-c", "exec java -Djava.io.tmpdir=$TMPDIR \
 -DGEOSERVER_DATA_DIR=/mnt/geoserver_datadir \
