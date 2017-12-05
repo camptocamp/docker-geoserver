@@ -10,7 +10,7 @@ RUN cd /tmp && \
     rm -r /tmp/*
 
 ENV GEOSERVER_VERSION 2.12
-ENV GEOSERVER_VERSION_NAME master
+ENV GEOSERVER_VERSION_NAME 2.12.x
 
 
 # Install geoserver
@@ -22,7 +22,8 @@ RUN curl -L http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/geo
     rm -r /tmp/*
 
 # Install plugins (WPS)
-RUN curl -L http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/ext-latest/geoserver-${GEOSERVER_VERSION}-SNAPSHOT-wps-plugin.zip > /tmp/geoserver-wps-plugin.zip && \
+RUN echo http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/ext-latest/geoserver-${GEOSERVER_VERSION}-SNAPSHOT-wps-plugin.zip && \
+    curl -L http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/ext-latest/geoserver-${GEOSERVER_VERSION}-SNAPSHOT-wps-plugin.zip > /tmp/geoserver-wps-plugin.zip && \
     unzip /tmp/geoserver-wps-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
     rm /tmp/*
 
