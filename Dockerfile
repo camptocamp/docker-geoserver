@@ -9,7 +9,7 @@ RUN cd /tmp && \
     mv /tmp/jai*/lib/*.so $JAVA_HOME/lib/amd64/ && \
     rm -r /tmp/*
 
-ENV GEOSERVER_VERSION 2.12
+ENV GEOSERVER_VERSION 2.13
 ENV GEOSERVER_VERSION_NAME master
 
 
