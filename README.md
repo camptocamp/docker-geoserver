@@ -1,11 +1,13 @@
 # Docker image for GeoServer
 
-A docker image that runs GeoServer version 2.9.
+A docker image that runs GeoServer version 2.14
 
 ## To run
 
 ```bash
-docker run -d -p 8080:8080 camptocamp/geoserver:2.9
+cd docker-geoserver
+docker build . -t geoserver
+docker run -p 8600:8000 geoserver
 ```
 
-If you want modifications to be persistent, add `-v $HOME/geoserver/data:/usr/local/tomcat/webapps/ROOT/data`.
+Visit http://localhost:8600/web/
