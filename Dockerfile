@@ -1,12 +1,13 @@
 FROM tomcat:9-jre8
 MAINTAINER Camptocamp "info@camptocamp.com"
 
-ENV GEOSERVER_VERSION 2.14.1
+ENV GEOSERVER_VERSION 2.14
+ENV GEOSERVER_MINOR_VERSION 1
 
 RUN mkdir /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
 
 # Install geoserver
-RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-war.zip/download > /tmp/geoserver.zip && \
+RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-war.zip/download > /tmp/geoserver.zip && \
     unzip -o /tmp/geoserver.zip -d /tmp/geoserver && \
     unzip -o /tmp/geoserver/geoserver.war -d $CATALINA_HOME/webapps/ROOT && \
     rm -rf $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-*.jar && \
@@ -15,6 +16,17 @@ RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERV
 VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
 
 # Install plugins if necessary
+# from sourceforge
+RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-control-flow-plugin.zip/download > /tmp/control-flow-plugin.zip && \
+    unzip /tmp/control-flow-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
+    curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-css-plugin.zip/download > /tmp/css-plugin.zip && \
+    unzip /tmp/css-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/
+# from geoserver repo
+RUN curl -L https://build.geoserver.org/geoserver/${GEOSERVER_VERSION}.x/community-latest/geoserver-${GEOSERVER_VERSION}-SNAPSHOT-mbstyle-plugin.zip > /tmp/mbstyle-plugin.zip && \
+    unzip /tmp/mbstyle-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
+#    curl -L https://build.geoserver.org/geoserver/${GEOSERVER_VERSION}.x/community-latest/geoserver-${GEOSERVER_VERSION}-SNAPSHOT-mbtiles-plugin.zip > /tmp/mbtiles-plugin.zip && \
+#    unzip /tmp/mbtiles-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
+    rm /tmp/*
 
 # Install Marlin
 RUN cd /usr/local/tomcat/lib && \
