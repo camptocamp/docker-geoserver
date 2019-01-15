@@ -1,33 +1,37 @@
-FROM tomcat:8-jre8
+FROM tomcat:9-jre8-alpine
 MAINTAINER Camptocamp "info@camptocamp.com"
 
-# Install Java JAI libraries
-RUN cd /tmp && \
-    curl -L http://download.java.net/media/jai/builds/release/1_1_3/jai-1_1_3-lib-linux-amd64.tar.gz | tar xfz - && \
-    curl -L http://download.java.net/media/jai-imageio/builds/release/1.1/jai_imageio-1_1-lib-linux-amd64.tar.gz  | tar xfz - && \
-    mv /tmp/jai*/lib/*.jar $JAVA_HOME/lib/ext/ && \
-    mv /tmp/jai*/lib/*.so $JAVA_HOME/lib/amd64/ && \
-    rm -r /tmp/*
+ENV GEOSERVER_VERSION 2.14.1
+RUN apk add curl
 
-ENV GEOSERVER_VERSION 2.13
-ENV GEOSERVER_VERSION_NAME master
-
+RUN mkdir /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
 
 # Install geoserver
-RUN curl -L http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/geoserver-${GEOSERVER_VERSION_NAME}-latest-war.zip > /tmp/geoserver.zip && \
-    unzip /tmp/geoserver.zip -d /tmp/geoserver && \
-    rm -rf ${CATALINA_HOME}/webapps/* && \
-    unzip /tmp/geoserver/geoserver.war -d $CATALINA_HOME/webapps/ROOT && \
-    (cd $CATALINA_HOME/webapps/ROOT/WEB-INF/lib; rm jai_core-*jar jai_imageio-*.jar jai_codec-*.jar) && \
+RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-war.zip/download > /tmp/geoserver.zip && \
+    unzip -o /tmp/geoserver.zip -d /tmp/geoserver && \
+    unzip -o /tmp/geoserver/geoserver.war -d $CATALINA_HOME/webapps/ROOT && \
     rm -r /tmp/*
 
-# Install plugins (WPS)
-RUN curl -L http://ares.boundlessgeo.com/geoserver/${GEOSERVER_VERSION_NAME}/ext-latest/geoserver-${GEOSERVER_VERSION}-SNAPSHOT-wps-plugin.zip > /tmp/geoserver-wps-plugin.zip && \
-    unzip /tmp/geoserver-wps-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
-    rm /tmp/*
+VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
+
+# Install plugins if necessary
 
 # Install Marlin
 RUN cd /usr/local/tomcat/lib && wget https://github.com/bourgesl/marlin-renderer/releases/download/v0.8.2/marlin-0.8.2-Unsafe.jar && \
     wget https://github.com/bourgesl/marlin-renderer/releases/download/v0.8.2/marlin-0.8.2-Unsafe-sun-java2d.jar
 
-ENV CATALINA_OPTS "-Xbootclasspath/a:/usr/local/tomcat/lib/marlin-0.7.4-Unsafe.jar -Xbootclasspath/p:/usr/local/tomcat/lib/marlin-0.7.4-Unsafe-sun-java2d.jar -Dsun.java2d.renderer=org.marlin.pisces.PiscesRenderingEngine" 
+ENV CATALINA_OPTS "-Xms1024M -Xmx4096M \
+ -Xbootclasspath/a:/usr/local/tomcat/lib/marlin-0.7.4-Unsafe.jar \
+ -Xbootclasspath/p:/usr/local/tomcat/lib/marlin-0.7.4-Unsafe-sun-java2d.jar \
+ -Dsun.java2d.renderer=org.marlin.pisces.PiscesRenderingEngine \
+ -DGEOSERVER_DATA_DIR=/mnt/geoserver_datadir \
+ -DGEOWEBCACHE_CACHE_DIR=/mnt/geoserver_tiles \
+ -DENABLE_JSONP=true \
+ -Dorg.geotools.coverage.jaiext.enabled=true \
+ -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 \
+ -XX:SoftRefLRUPolicyMSPerMB=36000 \
+ -XX:+UnlockExperimentalVMOptions \
+ -XX:+UseCGroupMemoryLimitForHeap"
+
+# Use min data dir template
+COPY min_data_dir/* /mnt/geoserver_datadir/
