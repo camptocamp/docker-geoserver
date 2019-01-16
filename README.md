@@ -7,7 +7,7 @@ A docker image that runs GeoServer version 2.14
 ```bash
 cd docker-geoserver
 docker build . -t geoserver
-docker run -p 8600:8000 geoserver
+docker run -p 8600:8080 geoserver
 ```
 
 Visit http://localhost:8600/web/
