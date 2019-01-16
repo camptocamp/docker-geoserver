@@ -33,7 +33,7 @@ RUN cd /usr/local/tomcat/lib && \
     wget https://github.com/bourgesl/marlin-renderer/releases/download/v0.9.0/marlin-0.9.0-Unsafe.jar -O $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin.jar && \
     wget https://github.com/bourgesl/marlin-renderer/releases/download/v0.9.0/marlin-0.9.0-Unsafe-sun-java2d.jar -O $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-sun-java2d.jar
 
-ENV CATALINA_OPTS "-Xms1024M -Xmx4096M \
+ENV CATALINA_OPTS "-Xms1024M \
  -Xbootclasspath/a:$CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin.jar \
  -Xbootclasspath/p:$CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-sun-java2d.jar \
  -Dsun.java2d.renderer=org.marlin.pisces.MarlinRenderingEngine \
