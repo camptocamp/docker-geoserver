@@ -5,6 +5,8 @@ ENV GEOSERVER_VERSION 2.14
 ENV GEOSERVER_MINOR_VERSION 1
 
 RUN mkdir /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
+RUN apt-get update && \
+    apt-get install -y vim
 
 # Install geoserver
 RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-war.zip/download > /tmp/geoserver.zip && \
