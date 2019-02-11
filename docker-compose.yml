@@ -1,0 +1,19 @@
+version: "3"
+
+volumes:
+  geoserver_geodata:
+  geoserver_datadir:
+  geoserver_tiles:
+
+services:
+  geoserver:
+    image: camptocamp/geoserver:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - geoserver_datadir:/mnt/geoserver_datadir
+      - geoserver_geodata:/mnt/geoserver_geodata
+      - geoserver_tiles:/mnt/geoserver_tiles
+    environment:
+      - XMS=1G
+      - XMX=4G
