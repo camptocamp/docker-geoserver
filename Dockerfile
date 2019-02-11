@@ -43,6 +43,14 @@ RUN wget -O ext.zip https://downloads.sourceforge.net/project/geoserver/GeoServe
  unzip -e ext.zip *.jar -d $JETTY_BASE/webapps/geoserver/WEB-INF/lib/; \
  rm -f ext.zip
 
+RUN wget -O ext.zip https://downloads.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-vectortiles-plugin.zip; \
+  unzip -e ext.zip *.jar -d $JETTY_BASE/webapps/geoserver/WEB-INF/lib/; \
+  rm -f ext.zip
+
+RUN wget -O ext.zip https://downloads.sourceforge.net/project/geoserver/GeoServer/${GEOSERVER_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}-control-flow-plugin.zip; \
+    unzip -e ext.zip *.jar -d $JETTY_BASE/webapps/geoserver/WEB-INF/lib/; \
+    rm -f ext.zip
+
 # Marlin renderer - already shipped with jdk11
 
 # libjpeg-turbo
