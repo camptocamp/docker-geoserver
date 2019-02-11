@@ -19,8 +19,9 @@ RUN echo "deb http://httpredir.debian.org/debian jessie main contrib non-free" >
  && rm -rf /var/lib/apt/lists/*
 # note: libgdal-java removed because of conflits with libgdal1h...
 
-RUN mkdir /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles && \
- chown jetty:jetty /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
+RUN mkdir /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
+COPY root /
+RUN chown -R jetty:jetty /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
 VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp", "/run/jetty" ]
 
 RUN sed -i 's/threads.max=200/threads.max=50/g' $JETTY_BASE/start.d/server.ini
