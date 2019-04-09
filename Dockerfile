@@ -1,7 +1,7 @@
 FROM jetty:9-jre11
 MAINTAINER Camptocamp "info@camptocamp.com"
 
-ENV GEOSERVER_VERSION 2.15-RC
+ENV GEOSERVER_VERSION 2.15.0
 
 ENV XMS=1536M XMX=8G
 ENV LC_ALL=C.UTF-8
@@ -68,7 +68,6 @@ RUN ln -s /usr/share/java/mlibwrapper_jai.jar $JETTY_BASE/lib/ext && \
     ln -s /usr/share/java/clibwrapper_jiio.jar $JETTY_BASE/lib/ext && \
     ln -s /usr/share/java/jai_imageio.jar $JETTY_BASE/lib/ext
 
-# Grmbl GeoSolutions-it ....
 #RUN ln -s /usr/share/java/gdal.jar $JETTY_BASE/webapps/geoserver/WEB-INF/lib/
 
 # Keep system version of JAI
