@@ -1,7 +1,7 @@
 FROM tomcat:9-jre8
 MAINTAINER Camptocamp "info@camptocamp.com"
 
-ENV GEOSERVER_VERSION 2.14
+ENV GEOSERVER_VERSION 2.15
 ENV GEOSERVER_MINOR_VERSION 1
 
 RUN mkdir /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
