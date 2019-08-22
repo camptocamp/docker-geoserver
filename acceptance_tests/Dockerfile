@@ -2,13 +2,15 @@ FROM python:3.5
 
 RUN pip install pytest==3.0.2 requests==2.11.1 netifaces==0.10.5
 
+# DOCKER_VERSION is unused now
 ARG DOCKER_VERSION=1.12.0
-ARG DOCKER_COMPOSE_VERSION=1.8.0
+ARG DOCKER_COMPOSE_VERSION=1.24.1
 
-RUN echo "deb http://apt.dockerproject.org/repo debian-jessie main" >> /etc/apt/sources.list && \
-    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && \
+RUN apt-get update && apt-get install -y lsb-release software-properties-common
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8 && \
     apt-get update && \
-    apt-get install -y docker-engine=${DOCKER_VERSION}* && \
+    apt-get install -y docker-ce docker-ce-cli containerd.io && \
     apt-get clean && \
     rm -r /var/lib/apt/lists/*
 RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose && \
