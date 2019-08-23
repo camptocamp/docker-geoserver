@@ -2,8 +2,6 @@ FROM python:3.5
 
 RUN pip install pytest==3.0.2 requests==2.11.1 netifaces==0.10.5
 
-# DOCKER_VERSION is unused now
-ARG DOCKER_VERSION=1.12.0
 ARG DOCKER_COMPOSE_VERSION=1.24.1
 
 RUN apt-get update && apt-get install -y lsb-release software-properties-common
