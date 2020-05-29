@@ -1,8 +1,8 @@
 FROM tomcat:9-jre8
 MAINTAINER Camptocamp "info@camptocamp.com"
 
-ENV GEOSERVER_VERSION 2.15
-ENV GEOSERVER_MINOR_VERSION 1
+ENV GEOSERVER_VERSION 2.16
+ENV GEOSERVER_MINOR_VERSION 3
 
 RUN mkdir /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
 
@@ -12,8 +12,7 @@ RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERV
     unzip -o /tmp/geoserver/geoserver.war -d $CATALINA_HOME/webapps/ROOT && \
     rm -rf $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-*.jar && \
     rm -r /tmp/*
-
-VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
+RUN cp -Rf $CATALINA_HOME/webapps/ROOT/data/* /mnt/geoserver_datadir/
 
 # Install plugins if necessary
 # from sourceforge
@@ -49,4 +48,5 @@ ENV CATALINA_OPTS "-Xms1024M \
  -XX:+UseCGroupMemoryLimitForHeap"
 
 # Use min data dir template
-COPY min_data_dir/* /mnt/geoserver_datadir/
+#COPY min_data_dir/* /mnt/geoserver_datadir/
+##VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
