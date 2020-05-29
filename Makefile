@@ -1,4 +1,4 @@
-DOCKER_TAG ?= latest
+DOCKER_TAG ?= 2.15
 DOCKER_IMAGE = camptocamp/geoserver
 ROOT = $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
