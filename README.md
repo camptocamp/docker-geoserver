@@ -10,4 +10,6 @@ docker build . -t geoserver:latest
 docker run -p 8600:8080 geoserver:latest
 ```
 
+If you want modifications to be persistent, add `-v $HOME/geoserver/data:/mnt/geoserver_datadir`.
+
 Visit http://localhost:8600/web/
