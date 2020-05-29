@@ -1,11 +1,11 @@
 # Docker image for GeoServer
 
-A docker image that runs GeoServer version 2.9.
+A docker image that runs GeoServer version 2.15.
 
 ## To run
 
 ```bash
-docker run -d -p 8080:8080 camptocamp/geoserver:2.9
+docker run -d -p 8080:8080 camptocamp/geoserver:2.15
 ```
 
 If you want modifications to be persistent, add `-v $HOME/geoserver/data:/usr/local/tomcat/webapps/ROOT/data`.
