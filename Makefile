@@ -1,4 +1,4 @@
-DOCKER_TAG ?= latest
+DOCKER_TAG ?= 2.16
 DOCKER_IMAGE = camptocamp/geoserver
 ROOT = $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
@@ -39,5 +39,5 @@ build_acceptance:
 
 acceptance: build_acceptance build
 		mkdir -p acceptance_tests/junitxml && touch acceptance_tests/junitxml/results.xml
-		docker run --rm -e DOCKER_TAG=$(DOCKER_TAG) -v /var/run/docker.sock:/var/run/docker.sock -v $(ROOT)/acceptance_tests/junitxml:/tmp/junitxml $(DOCKER_IMAGE)_acceptance:$(DOCKER_TAG)
+		docker run --rm -e ROOT=${ROOT} -e DOCKER_TAG=$(DOCKER_TAG) -v $(ROOT)/test_data_dir:/geoserver_datadir -v /var/run/docker.sock:/var/run/docker.sock -v $(ROOT)/acceptance_tests/junitxml:/tmp/junitxml $(DOCKER_IMAGE)_acceptance:$(DOCKER_TAG)
 
