@@ -49,4 +49,4 @@ ENV CATALINA_OPTS "-Xms1024M \
  -XX:+UseCGroupMemoryLimitForHeap"
 
 # Use min data dir template
-COPY min_data_dir/* /mnt/geoserver_datadir/
+COPY min_data_dir/ /mnt/geoserver_datadir/
