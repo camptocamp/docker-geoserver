@@ -1,8 +1,8 @@
-FROM python:3.5
+FROM python:3.9
 
 RUN pip install pytest==3.0.2 requests==2.11.1 netifaces==0.10.5
 
-ARG DOCKER_COMPOSE_VERSION=1.24.1
+ARG DOCKER_COMPOSE_VERSION=1.29.2
 
 RUN apt-get update && apt-get install -y lsb-release software-properties-common
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \

@@ -1,4 +1,5 @@
 geoserver:
-  image: camptocamp/geoserver:${DOCKER_TAG}
-  ports:
+   image: "camptocamp/geoserver:${DOCKER_TAG}"
+#  image: camptocamp/geoserver:latest
+   ports:
     - 8380:8080
