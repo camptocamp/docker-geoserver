@@ -1,0 +1,14 @@
+<layer>
+  <name>poi</name>
+  <id>LayerInfoImpl--570ae188:124761b8d78:-7fd0</id>
+  <path>/</path>
+  <type>VECTOR</type>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--570ae188:124761b8d78:-7fd1</id>
+  </resource>
+  <enabled>true</enabled>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>
