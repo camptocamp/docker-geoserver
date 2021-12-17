@@ -6,14 +6,20 @@ ENV GEOSERVER_MINOR_VERSION 1
 
 RUN mkdir /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
 
+#RUN apt-get update && apt-get install -y libjpeg62-turbo libturbojpeg0
 # Install geoserver
 RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-war.zip/download > /tmp/geoserver.zip && \
     unzip -o /tmp/geoserver.zip -d /tmp/geoserver && \
     unzip -o /tmp/geoserver/geoserver.war -d $CATALINA_HOME/webapps/ROOT && \
-    rm -rf $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-*.jar && \
     rm -r /tmp/*
+#    rm -rf $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-*.jar && \
 
 VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
+
+RUN wget https://sourceforge.net/projects/libjpeg-turbo/files/2.1.2/libjpeg-turbo-official_2.1.2_amd64.deb && \
+    dpkg -i libjpeg-turbo-official_2.1.2_amd64.deb && \
+    rm libjpeg-turbo-official_2.1.2_amd64.deb
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/libjpeg-turbo/lib64/"
 
 # Install plugins if necessary
 # from sourceforge
@@ -21,8 +27,11 @@ RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERV
     unzip -o /tmp/control-flow-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
     curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-css-plugin.zip/download > /tmp/css-plugin.zip && \
     unzip -o /tmp/css-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
-curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-vectortiles-plugin.zip/download > /tmp/vectortiles-plugin.zip && \
-    unzip -o /tmp/vectortiles-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/
+    curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-vectortiles-plugin.zip/download > /tmp/vectortiles-plugin.zip && \
+    unzip -o /tmp/vectortiles-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
+    curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/extensions/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-libjpeg-turbo-plugin.zip/download > /tmp/libjpeg-turbo-plugin.zip && \
+    unzip -o /tmp/libjpeg-turbo-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/
+
 # from geoserver repo
 #RUN curl -L https://build.geoserver.org/geoserver/${GEOSERVER_VERSION}.x/community-latest/geoserver-${GEOSERVER_VERSION}-SNAPSHOT-mbstyle-plugin.zip > /tmp/mbstyle-plugin.zip && \
 #    unzip -o /tmp/mbstyle-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
