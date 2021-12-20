@@ -1,4 +1,4 @@
-FROM tomcat:9-jre11
+FROM tomcat:9-jre11 as builder
 MAINTAINER Camptocamp "info@camptocamp.com"
 
 ENV GEOSERVER_VERSION 2.20
@@ -39,11 +39,6 @@ RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERV
 #    unzip -o /tmp/mbtiles-plugin.zip -d $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
 #    rm /tmp/*
 
-# Install Marlin
-#RUN cd /usr/local/tomcat/lib && \
-#    wget https://github.com/bourgesl/marlin-renderer/releases/download/v0.9.0/marlin-0.9.0-Unsafe.jar -O $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin.jar && \
-#    wget https://github.com/bourgesl/marlin-renderer/releases/download/v0.9.0/marlin-0.9.0-Unsafe-sun-java2d.jar -O $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-sun-java2d.jar
-
 # Install native JAI  https://geoserver.geo-solutions.it/multidim/install_run/jai_io_install.html
 RUN wget http://download.java.net/media/jai/builds/release/1_1_3/jai-1_1_3-lib-linux-amd64.tar.gz && \
     tar xzf jai-1_1_3-lib-linux-amd64.tar.gz -C /tmp && \
@@ -57,13 +52,6 @@ RUN wget http://download.java.net/media/jai-imageio/builds/release/1.1/jai_image
     rm -r /tmp/jai_imageio-1_1 jai_imageio-1_1-lib-linux-amd64.tar.gz
 # Clean old JAI implementation
 #RUN rm -v $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/jai_*.jar
-
-
-# -Xbootclasspath/a:$CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin.jar \
-# -Xbootclasspath/p:$CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-sun-java2d.jar \
-# -Dsun.java2d.renderer=org.marlin.pisces.MarlinRenderingEngine \
-# -XX:+UseCGroupMemoryLimitForHeap"
-# -XX:+UnlockExperimentalVMOptions
 
 # since we are on JDK11, see also option -XX:MaxRAMPercentage instead of Xms/Xmx
 ENV CATALINA_OPTS "-Xms1024M -Xmx2048m \
