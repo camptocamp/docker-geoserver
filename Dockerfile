@@ -1,24 +1,25 @@
 FROM tomcat:9-jre11 as builder
 MAINTAINER Camptocamp "info@camptocamp.com"
 
+# Latest stable as of december 2021
 ENV GEOSERVER_VERSION 2.20
 ENV GEOSERVER_MINOR_VERSION 1
 
 RUN mkdir /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
 
-#RUN apt-get update && apt-get install -y libjpeg62-turbo libturbojpeg0
 # Install geoserver
 RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-war.zip/download > /tmp/geoserver.zip && \
     unzip -o /tmp/geoserver.zip -d /tmp/geoserver && \
     unzip -o /tmp/geoserver/geoserver.war -d $CATALINA_HOME/webapps/ROOT && \
     rm -r /tmp/*
-#    rm -rf $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/marlin-*.jar && \
 
 VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
 
+# The officials APT turbojpeg packages libjpeg62-turbo libturbojpeg0 are not supported by geoserver (?)
 RUN wget https://sourceforge.net/projects/libjpeg-turbo/files/2.1.2/libjpeg-turbo-official_2.1.2_amd64.deb && \
     dpkg -i libjpeg-turbo-official_2.1.2_amd64.deb && \
     rm libjpeg-turbo-official_2.1.2_amd64.deb
+# JVM var java.library.path will be based on this env var. so GS will search native libs there.
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/libjpeg-turbo/lib64/"
 
 # Install plugins if necessary
@@ -50,16 +51,13 @@ RUN wget http://download.java.net/media/jai-imageio/builds/release/1.1/jai_image
     mv -v /tmp/jai_imageio-1_1/lib/*.jar $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/ && \
     mv -v /tmp/jai_imageio-1_1/lib/*.so $CATALINA_HOME/native-jni-lib/ && \
     rm -r /tmp/jai_imageio-1_1 jai_imageio-1_1-lib-linux-amd64.tar.gz
-# Clean old JAI implementation
-#RUN rm -v $CATALINA_HOME/webapps/ROOT/WEB-INF/lib/jai_*.jar
 
-# since we are on JDK11, see also option -XX:MaxRAMPercentage instead of Xms/Xmx
+# since we are on JDK11 and inside a container, see also option -XX:MaxRAMPercentage instead of Xms/Xmx
 ENV CATALINA_OPTS "-Xms1024M -Xmx2048m \
  -DGEOSERVER_DATA_DIR=/mnt/geoserver_datadir \
  -DGEOWEBCACHE_CACHE_DIR=/mnt/geoserver_tiles \
  -DENABLE_JSONP=true \
  -Dorg.geotools.coverage.jaiext.enabled=true \
- -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 \
  -XX:SoftRefLRUPolicyMSPerMB=36000 "
 
 # Use min data dir template
