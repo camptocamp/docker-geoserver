@@ -14,6 +14,7 @@ pull:
 build:
 		docker build --tag=$(DOCKER_IMAGE):$(DOCKER_TAG) .
 
+# FIXME useless ?
 build_acceptance_config:
 		docker build --tag=$(DOCKER_IMAGE)_acceptance_config:$(DOCKER_TAG) acceptance_tests/config
 

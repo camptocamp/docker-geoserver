@@ -36,11 +36,12 @@ jobs:
       - run: make pull
       - run: make build
       - run: make acceptance
+
       - name: acceptance tests logs
         run: docker-compose logs
         working-directory: acceptance_tests
         if: failure()
 
-      - name: Publish
-        run: c2cciutils-publish
-        if: env.HAS_SECRETS == 'HAS_SECRETS'
+#      - name: Publish
+#        run: c2cciutils-publish
+#        if: env.HAS_SECRETS == 'HAS_SECRETS'
