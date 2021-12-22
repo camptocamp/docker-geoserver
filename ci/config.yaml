@@ -1,10 +1,17 @@
+# Config of c2cciutils
+# jsonschema of this file : https://github.com/camptocamp/c2cciutils/blob/master/c2cciutils/schema.json
+
 checks:
   required_workflows:
     codeql.yaml: False
     audit.yaml: False
   versions:
     audit: False
+  codespell: False
+  dependabot_config: False
+  prettier: False
 
+# Map GH branches to Dockerhub tags
 version:
   branch_to_version_re:
     - from: master
