@@ -7,7 +7,8 @@ import pytest
 from c2cwsgiutils.acceptance import utils
 from c2cwsgiutils.acceptance.connection import Connection
 
-BASE_URL = os.environ.get("BASE_URL","http://localhost:8380")
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:8380")
+
 
 @pytest.fixture
 def connection():
