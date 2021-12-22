@@ -8,8 +8,7 @@ all: acceptance
 .PHONY: pull build acceptance build_acceptance_config build_acceptance
 
 pull:
-		for image in `find -name Dockerfile | xargs grep --no-filename FROM | awk '{print $$2}'`;
-			do docker pull $$image; done
+		for image in `find -name Dockerfile | xargs grep --no-filename FROM | awk '{print $$2}'`; do docker pull $$image; done
 
 build:
 		docker build --tag=$(DOCKER_IMAGE):$(DOCKER_TAG) .
