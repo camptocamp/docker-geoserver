@@ -32,6 +32,5 @@ jobs:
       - run: make build
       - run: make acceptance
 
-# FIXME : uncomment & publish
-#      - name: Publish
-#        run: c2cciutils-publish --type=rebuild --branch=${{ matrix.branch }}
+      - name: Publish
+        run: c2cciutils-publish --type=rebuild --tag=latest
