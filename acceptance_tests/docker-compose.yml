@@ -1,4 +1,13 @@
-geoserver:
-  image: camptocamp/geoserver:${DOCKER_TAG}
-  ports:
-    - 8380:8080
+version: '2'
+
+services:
+
+  geoserver:
+    image: "camptocamp/geoserver:${DOCKER_TAG}"
+    ports:
+      - 8380:8080
+
+  acceptance:
+    build: .
+    environment:
+      BASE_URL: 'http://geoserver:8080/'

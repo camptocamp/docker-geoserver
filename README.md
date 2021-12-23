@@ -1,6 +1,6 @@
 # Docker image for GeoServer
 
-A docker image that runs GeoServer version 2.17
+A docker image that runs GeoServer version 2.20.1
 
 ## To run
 

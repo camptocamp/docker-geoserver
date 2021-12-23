@@ -1,22 +1,19 @@
 """
 Common fixtures for every tests.
 """
+import os
+
 import pytest
+from c2cwsgiutils.acceptance import utils
+from c2cwsgiutils.acceptance.connection import Connection
 
-from acceptance_tests import Composition, Connection, wait_geoserver
-
-
-@pytest.fixture(scope="session")
-def composition(request):
-    """
-    Fixture that start/stop the Docker composition used for all the tests.
-    """
-    return Composition(request)
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:8380")
 
 
 @pytest.fixture
-def connection(composition):
+def connection():
     """
     Fixture that returns a connection to a running batch container.
     """
-    return Connection(composition)
+    utils.wait_url(BASE_URL + "ows?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabilities")
+    return Connection(BASE_URL, "http://localhost")
