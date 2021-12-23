@@ -8,7 +8,6 @@ def test_get_feature(connection):
         cache_expected=CacheExpected.DONT_CARE,
         cors=False,
     )
-    print(connection.base_url)
 
     # got confused about the namespace defined in this XPath.
     # features = answer.findall(".//{http://localhost:8380/wfs?service=WFS&amp;version=2.0.0&amp;request=DescribeFeatureType&amp;typeName=tiger%3Apoi}tiger:poi")
