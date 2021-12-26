@@ -2,9 +2,7 @@
 # jsonschema of this file : https://github.com/camptocamp/c2cciutils/blob/master/c2cciutils/schema.json
 
 checks:
-  required_workflows:
-    codeql.yaml: False
-    audit.yaml: False
+  required_workflows: False
   versions:
     audit: False
   codespell: False
