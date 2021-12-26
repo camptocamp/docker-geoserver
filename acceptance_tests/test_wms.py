@@ -28,5 +28,3 @@ def test_get_map(connection):
     if answer.headers["content-type"] != "image/png":
         print(answer.text)
     assert answer.headers["content-type"] == "image/png"
-
-

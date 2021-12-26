@@ -3,8 +3,8 @@
 
 checks:
   required_workflows: False
-  versions:
-    audit: False
+  black_config: False
+  versions: False
   codespell: False
   dependabot_config: False
   prettier: False

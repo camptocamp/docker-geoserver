@@ -34,8 +34,8 @@ jobs:
       - run: echo "${HOME}/.local/bin" >> ${GITHUB_PATH}
       - run: python3 -m pip install --user --requirement=ci/requirements.txt
 
-#      - name: Checks
-#        run: c2cciutils-checks
+      - name: Checks
+        run: c2cciutils-checks
 
       - run: make pull
       - run: make build
