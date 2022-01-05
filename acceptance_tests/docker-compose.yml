@@ -10,4 +10,4 @@ services:
   acceptance:
     build: .
     environment:
-      BASE_URL: 'http://geoserver:8080/'
+      BASE_URL: 'http://geoserver:8080/geoserver/'
