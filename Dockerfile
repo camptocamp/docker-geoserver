@@ -4,6 +4,7 @@ MAINTAINER Camptocamp "info@camptocamp.com"
 # Latest stable as of december 2021
 ENV GEOSERVER_VERSION 2.20
 ENV GEOSERVER_MINOR_VERSION 1
+ENV XMS=1536M XMX=8G
 
 USER root
 
@@ -70,7 +71,7 @@ RUN wget http://download.java.net/media/jai-imageio/builds/release/1.1/jai_image
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/libjpeg-turbo/lib64/:$JETTY_HOME/lib/ext/"
 
 # since we are on JDK11 and inside a container, see also option -XX:MaxRAMPercentage instead of Xms/Xmx
-ENV JAVA_OPTIONS "-Xms1024M -Xmx2048m \
+ENV JAVA_OPTIONS "-Xms$XMS -Xmx$XMX \
  -DGEOSERVER_DATA_DIR=/mnt/geoserver_datadir \
  -DGEOWEBCACHE_CACHE_DIR=/mnt/geoserver_tiles \
  -DENABLE_JSONP=true \
