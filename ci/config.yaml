@@ -15,6 +15,9 @@ version:
   branch_to_version_re:
     - from: master
       to: latest
+  tag_to_version_re:
+    - from: 2.20.1
+      to: 2.20.1
 
 publish:
   pypi:
