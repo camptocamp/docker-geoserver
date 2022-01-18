@@ -71,13 +71,15 @@ RUN wget http://download.java.net/media/jai-imageio/builds/release/1.1/jai_image
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/libjpeg-turbo/lib64/:$JETTY_HOME/lib/ext/"
 
 # since we are on JDK11 and inside a container, see also option -XX:MaxRAMPercentage instead of Xms/Xmx
+# jetty's module=servlets is necessary if we want to enable CORS at a later stage
 ENV JAVA_OPTIONS "-Xms$XMS -Xmx$XMX \
  -DGEOSERVER_DATA_DIR=/mnt/geoserver_datadir \
  -DGEOWEBCACHE_CACHE_DIR=/mnt/geoserver_tiles \
  -DENABLE_JSONP=true \
  -Dorg.geotools.coverage.jaiext.enabled=true \
  -XX:SoftRefLRUPolicyMSPerMB=36000 \
- -XX:-UsePerfData "
+ -XX:-UsePerfData \
+ --add-module=servlets "
 
 # Use min data dir template
 COPY --chown=jetty:jetty min_data_dir/ /mnt/geoserver_datadir/
