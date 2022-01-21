@@ -5,9 +5,13 @@ on:
   push:
     branches:
       - master
+    tags:
+      - '*'
   pull_request:
     branches:
       - master
+    tags:
+      - '*'
 
 env:
   HAS_SECRETS: ${{ secrets.HAS_SECRETS }}
