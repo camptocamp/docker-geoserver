@@ -24,8 +24,8 @@ RUN wget https://sourceforge.net/projects/libjpeg-turbo/files/2.1.2/libjpeg-turb
     rm libjpeg-turbo-official_2.1.2_amd64.deb
 
 # create dirs
-RUN install -o jetty -g jetty -d /tmp/geoserver /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles
-VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
+RUN mkdir -p /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles /tmp/geoserver
+RUN chown jetty:jetty /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles /tmp/geoserver
 
 USER jetty
 
@@ -83,4 +83,9 @@ ENV JAVA_OPTIONS "-Xms$XMS -Xmx$XMX \
  -XX:-UsePerfData "
 
 # Use min data dir template
-COPY --chown=jetty:jetty min_data_dir/ /mnt/geoserver_datadir/
+USER jetty
+COPY min_data_dir/ /mnt/geoserver_datadir/
+USER root
+RUN chown -R jetty:jetty /mnt/geoserver_datadir/*
+
+VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
