@@ -22,4 +22,5 @@ publish:
     images:
       - name: camptocamp/geoserver
     repository:
-        github: false
+        github:
+          versions: []
