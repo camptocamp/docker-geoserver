@@ -17,8 +17,7 @@ version:
       to: latest
       
 publish:
-  pypi:
-    packages: []
   docker:
+    latest: true
     images:
       - name: camptocamp/geoserver
