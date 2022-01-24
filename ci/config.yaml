@@ -21,3 +21,5 @@ publish:
     latest: true
     images:
       - name: camptocamp/geoserver
+        tags:
+          - 2.20.1
