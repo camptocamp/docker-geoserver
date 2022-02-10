@@ -3,6 +3,7 @@
 
 checks:
   required_workflows: False
+  black: False
   black_config: False
   versions: False
   codespell: False
