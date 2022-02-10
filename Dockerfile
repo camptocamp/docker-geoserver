@@ -60,15 +60,15 @@ RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERV
 # Install native JAI  https://geoserver.geo-solutions.it/multidim/install_run/jai_io_install.html
 RUN wget http://download.java.net/media/jai/builds/release/1_1_3/jai-1_1_3-lib-linux-amd64.tar.gz && \
     tar xzf jai-1_1_3-lib-linux-amd64.tar.gz -C /tmp && \
-    mv -v /tmp/jai-1_1_3/lib/* $JETTY_HOME/lib/ext/ && \
+    mv -v /tmp/jai-1_1_3/lib/* $JETTY_BASE/lib/ext/ && \
     rm -r /tmp/jai-1_1_3 jai-1_1_3-lib-linux-amd64.tar.gz
 RUN wget http://download.java.net/media/jai-imageio/builds/release/1.1/jai_imageio-1_1-lib-linux-amd64.tar.gz && \
     tar xzf jai_imageio-1_1-lib-linux-amd64.tar.gz -C /tmp && \
-    mv -v /tmp/jai_imageio-1_1/lib/* $JETTY_HOME/lib/ext/ && \
+    mv -v /tmp/jai_imageio-1_1/lib/* $JETTY_BASE/lib/ext/ && \
     rm -r /tmp/jai_imageio-1_1 jai_imageio-1_1-lib-linux-amd64.tar.gz
 
 # JVM var java.library.path will be based on this env var. so GS will search native libs there.
-ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/libjpeg-turbo/lib64/:$JETTY_HOME/lib/ext/"
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/libjpeg-turbo/lib64/:$JETTY_BASE/lib/ext/"
 
 # the servlets jetty module contains CORS filters
 RUN java -jar "$JETTY_HOME/start.jar" --add-module=servlets
@@ -78,6 +78,7 @@ ENV JAVA_OPTIONS "-Xms$XMS -Xmx$XMX \
  -DGEOSERVER_DATA_DIR=/mnt/geoserver_datadir \
  -DGEOWEBCACHE_CACHE_DIR=/mnt/geoserver_tiles \
  -DENABLE_JSONP=true \
+ -DALLOW_ENV_PARAMETRIZATION=true \
  -Dorg.geotools.coverage.jaiext.enabled=true \
  -XX:SoftRefLRUPolicyMSPerMB=36000 \
  -XX:-UsePerfData "
