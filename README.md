@@ -10,7 +10,7 @@ docker build . -t geoserver:latest
 docker run -p 8600:8080 geoserver:latest
 ```
 
-Visit http://localhost:8600/web/
+Visit http://localhost:8600/geoserver/web/
 
 ## If you want modifications to be persistent
 
