@@ -25,17 +25,19 @@ RUN wget https://sourceforge.net/projects/libjpeg-turbo/files/2.1.2/libjpeg-turb
 
 # create dirs
 RUN mkdir -p /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles /tmp/geoserver
-RUN chown jetty:jetty /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles /tmp/geoserver
+#RUN chown jetty:jetty /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles /tmp/geoserver
+RUN chmod 777 /mnt/geoserver_datadir /mnt/geoserver_geodata /mnt/geoserver_tiles /tmp/geoserver
 
-USER jetty
+#USER jetty
 
 RUN sed -i 's/threads.max=200/threads.max=50/g' $JETTY_BASE/start.d/server.ini
+RUN chmod a+w $JETTY_BASE/start.d/server.ini
 
 # Install geoserver
 RUN curl -L https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}/geoserver-${GEOSERVER_VERSION}.${GEOSERVER_MINOR_VERSION}-war.zip/download > /tmp/geoserver.zip && \
     unzip -o /tmp/geoserver.zip -d /tmp/geoserver && \
     unzip -o /tmp/geoserver/geoserver.war -d $JETTY_BASE/webapps/geoserver && \
-    rm -r /tmp/geoserver*
+    rm -r /tmp/geoserver* && chmod 777 -R $JETTY_BASE/webapps/geoserver
 
 # Install plugins if necessary
 # from sourceforge
@@ -83,10 +85,12 @@ ENV JAVA_OPTIONS "-Xms$XMS -Xmx$XMX \
  -XX:SoftRefLRUPolicyMSPerMB=36000 \
  -XX:-UsePerfData "
 
-# Use min data dir template
-USER jetty
-COPY min_data_dir/ /mnt/geoserver_datadir/
-USER root
-RUN chown -R jetty:jetty /mnt/geoserver_datadir/*
+## Use min data dir template
+#USER jetty
+#COPY min_data_dir/ /mnt/geoserver_datadir/
+#USER root
+#RUN chown -R jetty:jetty /mnt/geoserver_datadir/*
+
+RUN chmod 777 -R /var/lib/jetty /tmp/jetty /var/lib/jetty/webapps/
 
 VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
