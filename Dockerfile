@@ -85,11 +85,12 @@ ENV JAVA_OPTIONS "-Xms$XMS -Xmx$XMX \
  -XX:SoftRefLRUPolicyMSPerMB=36000 \
  -XX:-UsePerfData "
 
-## Use min data dir template
+# Use min data dir template
 #USER jetty
-#COPY min_data_dir/ /mnt/geoserver_datadir/
+COPY min_data_dir/ /mnt/geoserver_datadir/
 #USER root
 #RUN chown -R jetty:jetty /mnt/geoserver_datadir/*
+RUN chmod 777 -R /mnt/geoserver_datadir
 
 RUN chmod 777 -R /var/lib/jetty /tmp/jetty /var/lib/jetty/webapps/
 
