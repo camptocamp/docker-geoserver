@@ -5,11 +5,10 @@ on:
   push:
     branches:
       - master
+      - "jetty-openshift-2.20.1"
     tags:
-      - '*'
+      - "*"
   pull_request:
-    branches:
-      - master
 
 env:
   HAS_SECRETS: ${{ secrets.HAS_SECRETS }}

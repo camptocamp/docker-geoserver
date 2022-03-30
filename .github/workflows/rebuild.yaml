@@ -4,16 +4,24 @@ name: Rebuild
 # scheduled GH-actions will run on the default branch only, master
 on:
   schedule:
-    - cron: '30 3 * * *'
+    - cron: "30 3 * * 2"
 
 jobs:
   rebuild:
     runs-on: ubuntu-20.04
     name: Rebuild
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - "jetty-openshift-2.20.1"
+          - master
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{matrix.branch}}
 
       - uses: camptocamp/initialise-gopass-summon-action@v2
         with:
@@ -33,4 +41,4 @@ jobs:
       - run: make acceptance
 
       - name: Publish
-        run: c2cciutils-publish --type=rebuild --tag=latest
+        run: c2cciutils-publish --type=rebuild --branch=${{matrix.branch}}
