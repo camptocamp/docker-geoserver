@@ -1,9 +1,9 @@
 FROM jetty:10-jre11 as builder
 MAINTAINER Camptocamp "info@camptocamp.com"
 
-# Latest stable as of december 2021
-ENV GEOSERVER_VERSION 2.20
-ENV GEOSERVER_MINOR_VERSION 1
+# Latest stable as of 7th of march 2023
+ENV GEOSERVER_VERSION 2.22
+ENV GEOSERVER_MINOR_VERSION 2
 ENV XMS=1536M XMX=8G
 
 USER root
@@ -13,7 +13,7 @@ RUN sed -i 's/main/main contrib non-free/g' /etc/apt/sources.list
 RUN apt-get update \
     # accept the fonts EULA without the ncurses GUI
     && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections \
-    && apt-get install -y ttf-mscorefonts-installer \
+    && apt-get install -y ttf-mscorefonts-installer unzip \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
