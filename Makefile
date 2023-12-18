@@ -11,7 +11,7 @@ pull:
 		for image in `find -name Dockerfile | xargs grep --no-filename FROM | awk '{print $$2}'`; do docker pull $$image; done
 
 build:
-		docker build --tag=$(DOCKER_IMAGE):$(DOCKER_TAG) .
+		docker build --tag=$(DOCKER_IMAGE):$(DOCKER_TAG) --no-cache .
 
 acceptance: build
 	(cd acceptance_tests/ && docker-compose down)

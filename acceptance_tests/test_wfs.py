@@ -4,7 +4,7 @@ from c2cwsgiutils.acceptance.connection import CacheExpected
 def test_get_feature(connection):
     """test the WFS connection -- cnx"""
     answer = connection.get_xml(
-        url="ows?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES=poi&featureId=poi.1",
+        url="ows?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAMES=poi&featureId=poi.1",
         cache_expected=CacheExpected.DONT_CARE,
         cors=False,
     )

@@ -1,1 +1,3 @@
-pipenv==2022.1.8
+c2cwsgiutils>=6.0.4
+lxml>=4.9.3
+pytest>=7.4.3
