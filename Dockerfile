@@ -2,8 +2,8 @@ FROM jetty:10-jre11 as builder
 MAINTAINER Camptocamp "info@camptocamp.com"
 
 # Latest stable as of 7th of march 2023
-ENV GEOSERVER_VERSION 2.24
-ENV GEOSERVER_MINOR_VERSION 1
+ENV GEOSERVER_VERSION 2.25
+ENV GEOSERVER_MINOR_VERSION 2
 ENV XMS=1536M XMX=8G
 
 USER root
