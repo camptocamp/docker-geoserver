@@ -1,9 +1,8 @@
-FROM jetty:10-jre11 as builder
+FROM jetty:10-jre11 AS builder
 MAINTAINER Camptocamp "info@camptocamp.com"
 
-# Latest stable as of 7th of march 2023
-ENV GEOSERVER_VERSION 2.25
-ENV GEOSERVER_MINOR_VERSION 2
+ENV GEOSERVER_VERSION 2.26
+ENV GEOSERVER_MINOR_VERSION 1
 ENV XMS=1536M XMX=8G
 
 USER root
@@ -91,3 +90,6 @@ USER root
 RUN chown -R jetty:jetty /mnt/geoserver_datadir/*
 
 VOLUME [ "/mnt/geoserver_datadir", "/mnt/geoserver_geodata", "/mnt/geoserver_tiles", "/tmp" ]
+
+# downgrade to jetty user
+USER jetty
