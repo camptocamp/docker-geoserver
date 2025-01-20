@@ -14,8 +14,8 @@ build:
 		docker build --tag=$(DOCKER_IMAGE):$(DOCKER_TAG) --no-cache .
 
 acceptance: build
-	(cd acceptance_tests/ && docker-compose down)
-	(cd acceptance_tests/ && docker-compose build)
-	(cd acceptance_tests/ && docker-compose up -d)
-	(cd acceptance_tests/ && docker-compose exec -T acceptance py.test -vv --color=yes --junitxml /tmp/junitxml/results.xml)
-	(cd acceptance_tests/ && docker-compose down -t1)
+	(cd acceptance_tests/ && docker compose down)
+	(cd acceptance_tests/ && docker compose build)
+	(cd acceptance_tests/ && docker compose up -d)
+	(cd acceptance_tests/ && docker compose exec -T acceptance py.test -vv --color=yes --junitxml /tmp/junitxml/results.xml)
+	(cd acceptance_tests/ && docker compose down -t1)
