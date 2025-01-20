@@ -1,5 +1,5 @@
 FROM jetty:10-jre11 AS builder
-MAINTAINER Camptocamp "info@camptocamp.com"
+LABEL org.opencontainers.image.authors="Camptocamp <info@camptocamp.com>"
 
 ENV GEOSERVER_VERSION 2.26
 ENV GEOSERVER_MINOR_VERSION 1
