@@ -2,7 +2,7 @@ FROM jetty:10-jre11 AS builder
 LABEL org.opencontainers.image.authors="Camptocamp <info@camptocamp.com>"
 
 ENV GEOSERVER_VERSION 2.26
-ENV GEOSERVER_MINOR_VERSION 1
+ENV GEOSERVER_MINOR_VERSION 2
 ENV XMS=1536M XMX=8G
 
 USER root

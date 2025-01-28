@@ -10,7 +10,7 @@
 | 2.24.1    | Best effort     | 27/11/2023                                                    |
 | 2.25.2    | Best effort     | 18/06/2024                                                    |
 | 2.26.1    | Best effort     | 18/11/2024                                                    |
-
+| 2.26.2    | Best effort     | 27/01/2025                                                    |
 
 
 [Reporting Upstream Vulnerability](http://geoserver.org/issues/)
